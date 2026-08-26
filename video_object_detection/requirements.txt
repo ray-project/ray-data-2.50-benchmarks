@@ -1,0 +1,8 @@
+--extra-index-url https://download.pytorch.org/whl/cu128
+ray[data]==2.50
+daft==0.6.2
+numpy==1.26.4
+av==15.1.0
+ultralytics==8.3.200
+pillow==11.3.0
+decord==0.6.0
