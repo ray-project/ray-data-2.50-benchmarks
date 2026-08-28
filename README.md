@@ -27,7 +27,7 @@ once with Daft — so the two run the same work on the same cluster.
 
 Every directory contains:
 
-- `ray_data_main.py`ㅣ the Ray Data implementation.
+- `ray_data_main.py` - the Ray Data implementation.
 - `daft_main.py` — the Daft implementation. Most are adapted from
   [Daft's own benchmarks](https://github.com/Eventual-Inc/Daft/tree/9da265d8f1e5d5814ae871bed3cee1b0757285f5/benchmarking/ai);
   the header comment of each file names the exact source.
