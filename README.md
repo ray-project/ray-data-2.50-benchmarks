@@ -10,11 +10,7 @@ Published results live in the Ray docs under
 
 These scripts used to live in the Ray repo as release tests under
 `release/nightly_tests/multimodal_inference_benchmarks`, added in
-[ray-project/ray#57111](https://github.com/ray-project/ray/pull/57111). The Daft
-half of the comparison is a point-in-time snapshot rather than something worth
-running nightly, so it moved here. Ray still runs the Ray Data pipelines as its
-own nightly release tests; this repo is the archive of the full side-by-side
-comparison, pinned to the versions the blog post measured.
+[ray-project/ray#57111](https://github.com/ray-project/ray/pull/57111). 
 
 ## Workloads
 
@@ -31,7 +27,7 @@ once with Daft — so the two run the same work on the same cluster.
 
 Every directory contains:
 
-- `ray_data_main.py` — the Ray Data implementation.
+- `ray_data_main.py`ㅣ the Ray Data implementation.
 - `daft_main.py` — the Daft implementation. Most are adapted from
   [Daft's own benchmarks](https://github.com/Eventual-Inc/Daft/tree/9da265d8f1e5d5814ae871bed3cee1b0757285f5/benchmarking/ai);
   the header comment of each file names the exact source.
@@ -59,7 +55,7 @@ on the larger instance types:
 | Large Image Embedding | 105.81 ± 0.79s | 752.75 ± 5.5s |
 
 Instance size changes the picture, and that's the point the blog post makes. On
-`g6.xlarge` (4 CPUs per GPU) Daft wins two of the workloads — image
+`g6.xlarge` (4 CPUs per GPU) Daft wins two of the workloads: image
 classification, 315.0s to Ray Data's 456.2s, and video object detection, 758.8s
 to 922s. Both reverse as CPU count rises: on `g6.8xlarge` (32 CPUs per GPU) Ray
 Data leads 111.2s to 195.3s and 623s to 771.3s. Ray Data's advantage comes from
@@ -74,7 +70,7 @@ table reports 2.50.
 These workloads read multi-terabyte datasets on multi-node GPU clusters, so they
 aren't meant to run on a laptop. All input data is publicly readable from S3.
 
-**1. Start a cluster.** Use the workload's `compute.yaml` — the published numbers
+**1. Start a cluster.** Use the workload's `compute.yaml`, the published numbers
 depend on the instance types and node counts it pins. Note that
 `large_image_embedding` asks for a much bigger cluster (40 GPU nodes plus 64 CPU
 nodes) than the others (8 GPU nodes).
@@ -112,6 +108,6 @@ The Ray Data run leaves its metrics in `result.json`; the Daft run prints
 `Runtime: <seconds>`.
 
 Comparing runs is only meaningful when both sides ran on the same cluster shape
-with the same pinned versions. Newer Ray Data releases change the numbers — some
+with the same pinned versions. Newer Ray Data releases change the numbers. Some
 scripts carry `NOTE` comments about behavior that improved in Ray Data 2.51 and
 later.
