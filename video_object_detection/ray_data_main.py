@@ -86,11 +86,10 @@ def crop_image(row):
 
 
 def run_pipeline():
-    # These are best practices we recommend to avoid OOMs, though they're opt-in and
-    # not enabled by default.
-    ray.data.DataContext.get_current().isolate_read_workers = True
-    ray.data.DataContext.get_current().default_map_logical_memory_enabled = True
-
+    # This repro targets Ray Data 2.50, so two settings were dropped from the Ray
+    # Data master version during transfer: `DataContext.isolate_read_workers` and
+    # `DataContext.default_map_logical_memory_enabled`. Both were added after 2.50
+    # to address memory pressure.
     ds = ray.data.read_videos(INPUT_PATH)
     ds = ds.map(resize_frame)
     ds = ds.map_batches(

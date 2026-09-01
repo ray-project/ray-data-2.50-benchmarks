@@ -96,20 +96,20 @@ def decoder(batch):
 
 
 def run_pipeline():
-    # These are best practices we recommend to avoid OOMs, though they're opt-in and
-    # not enabled by default.
-    ray.data.DataContext.get_current().isolate_read_workers = True
-    ray.data.DataContext.get_current().default_map_logical_memory_enabled = True
-
+    # This repro targets Ray Data 2.50, so three settings were dropped from the
+    # Ray Data master version during transfer: `batch_size="auto"`,
+    # `DataContext.isolate_read_workers`, and
+    # `DataContext.default_map_logical_memory_enabled`. All were added after 2.50
+    # to address memory pressure.
     ds = ray.data.read_parquet(INPUT_PATH)
     ds = ds.map(resample, memory=PREPROCESS_MEMORY)
-    ds = ds.map_batches(whisper_preprocess, batch_size="auto", memory=PREPROCESS_MEMORY)
+    ds = ds.map_batches(whisper_preprocess, memory=PREPROCESS_MEMORY)
     ds = ds.map_batches(
         Transcriber,
         batch_size=BATCH_SIZE,
         num_gpus=1,
     )
-    ds = ds.map_batches(decoder, batch_size="auto")
+    ds = ds.map_batches(decoder)
     ds.write_parquet(OUTPUT_PATH)
 
 
